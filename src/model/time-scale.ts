@@ -280,7 +280,7 @@ export class TimeScale {
 	}
 
 	public indexToTime(index: TimePointIndex): TimePoint | null {
-		return this._points[index]?.time || null;
+		return this._points[index]?.time ?? null;
 	}
 
 	public timeToIndex(time: TimePoint, findNearest: boolean): TimePointIndex | null {
@@ -655,7 +655,7 @@ export class TimeScale {
 
 		// Fixes bug on mobile where if there's kinetic scrolling in progress
 		// it would clash with this animation
-		this.endScroll()
+		this.endScroll();
 
 		const source = this._rightOffset;
 		const animationStart = performance.now();
