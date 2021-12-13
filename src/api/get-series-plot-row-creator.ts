@@ -5,15 +5,15 @@ import { TimePoint, TimePointIndex } from '../model/time-data';
 
 import { BarData, CandlestickData, HistogramData, isWhitespaceData, LineData, SeriesDataItemTypeMap } from './data-consumer';
 
-function getLineBasedSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: LineData | HistogramData): Mutable<SeriesPlotRow<'Area' | 'Baseline'>> {
+function getLineBasedSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: LineData | HistogramData, original: unknown): Mutable<SeriesPlotRow<'Area' | 'Baseline'>> {
 	const val = item.value;
-	return { index, time, value: [val, val, val, val] };
+	return { index, time, value: [val, val, val, val], original };
 }
 
-function getColoredLineBasedSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: LineData | HistogramData): Mutable<SeriesPlotRow<'Line' | 'Histogram'>> {
+function getColoredLineBasedSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: LineData | HistogramData, original: unknown): Mutable<SeriesPlotRow<'Line' | 'Histogram'>> {
 	const val = item.value;
 
-	const res: Mutable<SeriesPlotRow<'Line' | 'Histogram'>> = { index, time, value: [val, val, val, val] };
+	const res: Mutable<SeriesPlotRow<'Line' | 'Histogram'>> = { index, time, value: [val, val, val, val], original };
 
 	// 'color' here is public property (from API) so we can use `in` here safely
 	// eslint-disable-next-line no-restricted-syntax
@@ -24,8 +24,8 @@ function getColoredLineBasedSeriesPlotRow(time: TimePoint, index: TimePointIndex
 	return res;
 }
 
-function getBarSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: BarData): Mutable<SeriesPlotRow<'Bar'>> {
-	const res: Mutable<SeriesPlotRow<'Bar'>> = { index, time, value: [item.open, item.high, item.low, item.close] };
+function getBarSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: BarData, original: unknown): Mutable<SeriesPlotRow<'Bar'>> {
+	const res: Mutable<SeriesPlotRow<'Bar'>> = { index, time, value: [item.open, item.high, item.low, item.close], original };
 
 	// 'color' here is public property (from API) so we can use `in` here safely
 	// eslint-disable-next-line no-restricted-syntax
@@ -36,8 +36,8 @@ function getBarSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: BarDa
 	return res;
 }
 
-function getCandlestickSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: CandlestickData): Mutable<SeriesPlotRow<'Candlestick'>> {
-	const res: Mutable<SeriesPlotRow<'Candlestick'>> = { index, time, value: [item.open, item.high, item.low, item.close] };
+function getCandlestickSeriesPlotRow(time: TimePoint, index: TimePointIndex, item: CandlestickData, original: unknown): Mutable<SeriesPlotRow<'Candlestick'>> {
+	const res: Mutable<SeriesPlotRow<'Candlestick'>> = { index, time, value: [item.open, item.high, item.low, item.close], original };
 
 	// 'color' here is public property (from API) so we can use `in` here safely
 	// eslint-disable-next-line no-restricted-syntax
@@ -75,12 +75,12 @@ type SeriesItemValueFnMap = {
 export type TimedSeriesItemValueFn = (time: TimePoint, index: TimePointIndex, item: SeriesDataItemTypeMap[SeriesType], original: unknown) => Mutable<SeriesPlotRow | WhitespacePlotRow>;
 
 function wrapWhitespaceData(createPlotRowFn: (typeof getLineBasedSeriesPlotRow) | (typeof getBarSeriesPlotRow) | (typeof getCandlestickSeriesPlotRow)): TimedSeriesItemValueFn {
-	return (time: TimePoint, index: TimePointIndex, bar: SeriesDataItemTypeMap[SeriesType]) => {
+	return (time: TimePoint, index: TimePointIndex, bar: SeriesDataItemTypeMap[SeriesType], original: unknown) => {
 		if (isWhitespaceData(bar)) {
-			return { time, index };
+			return { time, index, original };
 		}
 
-		return createPlotRowFn(time, index, bar);
+		return createPlotRowFn(time, index, bar, original);
 	};
 }
 
