@@ -106,19 +106,20 @@ export class PriceAxisViewRenderer implements IPriceAxisViewRenderer {
 
 			// TODO: Make radius configurable
 			const radiusScaled = 5 * pixelRatio
+			const xRadiusFactor = alignRight ? -1 : 1
 
 			ctx.save();
 
 			ctx.beginPath();
 			ctx.moveTo(xInsideScaled, yTopScaled);
-			ctx.lineTo(xOutsideScaled - radiusScaled, yTopScaled);
+			ctx.lineTo(xOutsideScaled - radiusScaled * xRadiusFactor, yTopScaled);
 			ctx.arcTo(xOutsideScaled, yTopScaled, xOutsideScaled, yTopScaled + radiusScaled, radiusScaled);
 			ctx.lineTo(xOutsideScaled, yBottomScaled - radiusScaled);
-			ctx.arcTo(xOutsideScaled, yBottomScaled, xOutsideScaled - radiusScaled, yBottomScaled, radiusScaled);
-			ctx.lineTo(xInsideScaled + radiusScaled, yBottomScaled);
+			ctx.arcTo(xOutsideScaled, yBottomScaled, xOutsideScaled - radiusScaled * xRadiusFactor, yBottomScaled, radiusScaled);
+			ctx.lineTo(xInsideScaled + radiusScaled * xRadiusFactor, yBottomScaled);
 			ctx.arcTo(xInsideScaled, yBottomScaled, xInsideScaled, yBottomScaled - radiusScaled, radiusScaled);
 			ctx.lineTo(xInsideScaled, yTopScaled + radiusScaled);
-			ctx.arcTo(xInsideScaled, yTopScaled, xInsideScaled + radiusScaled, yTopScaled, radiusScaled);
+			ctx.arcTo(xInsideScaled, yTopScaled, xInsideScaled + radiusScaled * xRadiusFactor, yTopScaled, radiusScaled);
 			ctx.fill();
 
 			// TODO: Not sure what the point of this border is, but it breaks with corner radius applied
