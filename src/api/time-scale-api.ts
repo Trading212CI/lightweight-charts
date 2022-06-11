@@ -54,13 +54,13 @@ export class TimeScaleApi implements ITimeScaleApi, IDestroyable {
 		return this._timeScale.rightOffset();
 	}
 
-	public scrollToPosition(position: number, animated: boolean): void {
+	public scrollToPosition(position: number, animated: boolean, duration?: number): void {
 		if (!animated) {
 			this._model.setRightOffset(position);
 			return;
 		}
 
-		this._timeScale.scrollToOffsetAnimated(position, Constants.AnimationDurationMs);
+		this._timeScale.scrollToOffsetAnimated(position, duration ?? Constants.AnimationDurationMs);
 	}
 
 	public scrollToRealTime(): void {

@@ -36,8 +36,9 @@ export interface ITimeScaleApi {
 	 *
 	 * @param position - Target data position
 	 * @param animated - Setting this to true makes the chart scrolling smooth and adds animation
+	 * @param duration - Define animation duration
 	 */
-	scrollToPosition(position: number, animated: boolean): void;
+	scrollToPosition(position: number, animated: boolean, duration?: number): void;
 
 	/**
 	 * Restores default scroll position of the chart. This process is always animated.

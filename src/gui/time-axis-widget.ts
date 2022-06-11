@@ -424,7 +424,11 @@ export class TimeAxisWidget implements MouseEventHandlers, IDestroyable {
 	}
 
 	private _baseBoldFont(): string {
-		return makeFont(this._fontSize(), this._options.fontFamily, 'bold');
+		if (this._options.boldFontFamily) {
+			return makeFont(this._fontSize(), this._options.boldFontFamily);
+		} else {
+			return makeFont(this._fontSize(), this._options.fontFamily, 'bold');
+		}
 	}
 
 	private _getRendererOptions(): Readonly<TimeAxisViewRendererOptions> {

@@ -3,9 +3,9 @@
  */
 export const enum ColorType {
 	/** Solid color */
-	Solid = 'solid',
+	Solid = "solid",
 	/** Vertical gradient color */
-	VerticalGradient = 'gradient',
+	VerticalGradient = "gradient",
 }
 
 /**
@@ -82,6 +82,11 @@ export interface LayoutOptions {
 	 * @defaultValue `'Trebuchet MS', Roboto, Ubuntu, sans-serif`
 	 */
 	fontFamily: string;
+
+	/**
+	 * Font family of bold text on the scales.
+	 */
+	boldFontFamily: string;
 }
 
-export type LayoutOptionsInternal = Omit<LayoutOptions, 'backgroundColor'>;
+export type LayoutOptionsInternal = Omit<LayoutOptions, "backgroundColor">;

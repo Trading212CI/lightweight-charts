@@ -653,6 +653,10 @@ export class TimeScale {
 			throw new RangeError('animationDuration (optional) must be finite positive number');
 		}
 
+		// Fixes bug on mobile where if there's kinetic scrolling in progress
+		// it would clash with this animation
+		this.endScroll()
+
 		const source = this._rightOffset;
 		const animationStart = performance.now();
 		const animationFn = () => {

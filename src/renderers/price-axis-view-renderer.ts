@@ -95,7 +95,7 @@ export class PriceAxisViewRenderer implements IPriceAxisViewRenderer {
 
 			const tickHeight = Math.max(1, Math.floor(pixelRatio));
 
-			const horzBorderScaled = Math.max(1, Math.floor(horzBorder * pixelRatio));
+			// const horzBorderScaled = Math.max(1, Math.floor(horzBorder * pixelRatio));
 			const xInsideScaled = alignRight ? rightScaled : 0;
 			const yTopScaled = Math.round(yTop * pixelRatio);
 			const xOutsideScaled = Math.round(xOutside * pixelRatio);
@@ -104,18 +104,27 @@ export class PriceAxisViewRenderer implements IPriceAxisViewRenderer {
 			const yBottomScaled = yMidScaled + tickHeight + (yMidScaled - yTopScaled);
 			const xTickScaled = Math.round(xTick * pixelRatio);
 
+			// TODO: Make radius configurable
+			const radiusScaled = 5 * pixelRatio
+
 			ctx.save();
 
 			ctx.beginPath();
 			ctx.moveTo(xInsideScaled, yTopScaled);
-			ctx.lineTo(xOutsideScaled, yTopScaled);
-			ctx.lineTo(xOutsideScaled, yBottomScaled);
-			ctx.lineTo(xInsideScaled, yBottomScaled);
+			ctx.lineTo(xOutsideScaled - radiusScaled, yTopScaled);
+			ctx.arcTo(xOutsideScaled, yTopScaled, xOutsideScaled, yTopScaled + radiusScaled, radiusScaled);
+			ctx.lineTo(xOutsideScaled, yBottomScaled - radiusScaled);
+			ctx.arcTo(xOutsideScaled, yBottomScaled, xOutsideScaled - radiusScaled, yBottomScaled, radiusScaled);
+			ctx.lineTo(xInsideScaled + radiusScaled, yBottomScaled);
+			ctx.arcTo(xInsideScaled, yBottomScaled, xInsideScaled, yBottomScaled - radiusScaled, radiusScaled);
+			ctx.lineTo(xInsideScaled, yTopScaled + radiusScaled);
+			ctx.arcTo(xInsideScaled, yTopScaled, xInsideScaled + radiusScaled, yTopScaled, radiusScaled);
 			ctx.fill();
 
+			// TODO: Not sure what the point of this border is, but it breaks with corner radius applied
 			// draw border
-			ctx.fillStyle = this._data.borderColor;
-			ctx.fillRect(alignRight ? rightScaled - horzBorderScaled : 0, yTopScaled, horzBorderScaled, yBottomScaled - yTopScaled);
+			// ctx.fillStyle = this._data.borderColor;
+			// ctx.fillRect(alignRight ? rightScaled - horzBorderScaled : 0, yTopScaled, horzBorderScaled, yBottomScaled - yTopScaled);
 
 			if (this._data.tickVisible) {
 				ctx.fillStyle = this._commonData.color;
