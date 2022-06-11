@@ -180,6 +180,13 @@ export interface PriceScaleOptions {
 	 * @defaultValue `true`
 	 */
 	drawTicks: boolean;
+
+	/**
+	 * Push custom price line labels to the opposite side
+	 *
+	 * @defaultValue `false`
+	 */
+	noAdjacentLabels: boolean;
 }
 
 interface RangeCache {

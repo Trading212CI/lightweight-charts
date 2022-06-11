@@ -205,10 +205,10 @@ export class Pane implements IDestroyable {
 
 	public priceScalePosition(priceScale: PriceScale): PriceScalePosition {
 		if (priceScale === this._leftPriceScale) {
-			return 'left';
+			return priceScale.options().noAdjacentLabels ? 'right' : 'left';
 		}
 		if (priceScale === this._rightPriceScale) {
-			return 'right';
+			return priceScale.options().noAdjacentLabels ? 'left' : 'right';
 		}
 
 		return 'overlay';
