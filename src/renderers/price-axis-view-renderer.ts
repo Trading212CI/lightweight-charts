@@ -105,8 +105,8 @@ export class PriceAxisViewRenderer implements IPriceAxisViewRenderer {
 			const xTickScaled = Math.round(xTick * pixelRatio);
 
 			// TODO: Make radius configurable
-			const radiusScaled = 5 * pixelRatio
-			const xRadiusFactor = alignRight ? -1 : 1
+			const radiusScaled = 5 * pixelRatio;
+			const xRadiusFactor = alignRight ? -1 : 1;
 
 			ctx.save();
 
