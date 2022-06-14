@@ -46,6 +46,11 @@ export interface ITimeScaleApi {
 	scrollToRealTime(): void;
 
 	/**
+	 * Ends kinetic scroll animation immediately
+	 */
+	endScroll(): void;
+
+	/**
 	 * Returns current visible time range of the chart.
 	 *
 	 * Note that this method cannot extrapolate time and will use the only currently existent data.

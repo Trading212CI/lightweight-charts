@@ -67,6 +67,10 @@ export class TimeScaleApi implements ITimeScaleApi, IDestroyable {
 		this._timeScale.scrollToRealTime();
 	}
 
+	public endScroll(): void {
+		this._timeScale.endScroll();
+	}
+
 	public getVisibleRange(): TimeRange | null {
 		const timeRange = this._timeScale.visibleTimeRange();
 
