@@ -301,6 +301,8 @@ export class DataLayer {
 
 	public updateSeriesData<TSeriesType extends SeriesType>(series: Series<TSeriesType>, data: SeriesDataItemTypeMap[TSeriesType]): DataUpdateResponse {
 		const extendedData = data as SeriesDataItemWithOriginalData<TSeriesType>;
+		extendedData.original = clone(data);
+
 		convertStringToBusinessDay(data);
 
 		const time = ensureNotNull(selectTimeConverter([data]))(data.time);
